@@ -1,6 +1,10 @@
 class CollectionProcessor
-  def process(_amount)
-    raise 'Amount must be greater than zero'
+  def process(amount)
+    raise 'Amount must be greater than zero' unless amount.positive?
+
+    service = CreditCardCollectionService.new
+
+    service.process(amount)
   end
 end
 
