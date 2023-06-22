@@ -11,9 +11,13 @@ RSpec.describe CollectionProcessor do
     end
 
     context 'when amount is above zero' do
-      [25, 50, 100].each do |amount|
+      [{ amount: 25, service_fee: 2 },
+       { amount: 100, service_fee: 4 },
+       { amount: 101, service_fee: 8 }].each do |test|
         it 'adds a service fee' do
-          service_fee = 2
+          amount = test[:amount]
+          service_fee = test[:service_fee]
+
           expected_total = amount + service_fee
 
           processor.process(amount)
