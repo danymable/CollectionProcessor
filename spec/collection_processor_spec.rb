@@ -10,10 +10,16 @@ RSpec.describe CollectionProcessor do
       expect { processor.process(amount) }.to raise_error('Amount must be above zero')
     end
 
-    it 'passes amount on to the CollectionService' do
-      amount = 100
-      processor.process(amount)
-      expect(service).to have_received(:process).with(amount)
+    context 'when amount is above zero' do
+      [25, 50, 100].each do |amount|
+        it 'adds a service fee' do
+          service_fee = 2
+          expected_total = amount + service_fee
+
+          processor.process(amount)
+          expect(service).to have_received(:process).with(expected_total)
+        end
+      end
     end
   end
 end
