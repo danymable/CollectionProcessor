@@ -2,17 +2,16 @@ require './app/collection_processor'
 
 RSpec.describe CollectionProcessor do
   describe '#process' do
-    subject(:processor) { CollectionProcessor.new }
+    subject(:processor) { CollectionProcessor.new(collection_service) }
+    let(:collection_service) { double(CreditCardCollectionService) }
+
     it 'raises error if amonut is not greater than zero' do
       amount = 0
       expect { processor.process(amount) }.to raise_error 'Amount must be greater than zero'
     end
     context 'with an amount greater than zero' do
-      let(:collection_service) { double(CreditCardCollectionService) }
-
       before do
         allow(collection_service).to receive(:process)
-        allow(CreditCardCollectionService).to receive(:new).and_return(collection_service)
       end
 
       it 'passes amount to cc service' do
